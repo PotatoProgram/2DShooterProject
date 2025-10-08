@@ -80,13 +80,13 @@ public class EnemySpawner : MonoBehaviour
         if (adjustedSpawnDelay > spawnDelay)
         {
             adjustedSpawnDelay = spawnDelay; //prevent potentially nasty number interactions resulting in an exorbitant wait
-            Debug.Log("Difficulty adjuster returned illegally large value. Correcting...");
+            Debug.Log("Difficulty adjuster returned illegally large value. Correcting..."); // this spams the console every frame. My current understanding of C# won't let me fix this
         }
 
         if (float.IsInfinity(adjustedSpawnDelay))
         {
             adjustedSpawnDelay = spawnDelay; //prevents the game from softlocking immediately
-            Debug.Log("Difficulty adjuster returned invalid value, overriding to prevent softlock");
+            Debug.Log("Difficulty adjuster returned invalid value, overriding to prevent softlock"); //see line 83
         }
         
         // If it is time for an enemy to be spawned
