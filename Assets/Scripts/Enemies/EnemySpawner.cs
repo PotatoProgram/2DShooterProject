@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ public class EnemySpawner : MonoBehaviour
     [Header("GameObject References")]
     [Tooltip("The enemy prefab to use when spawning enemies")]
     public GameObject enemyPrefab = null;
-    [Tooltip("The target of the spwaned enemies")]
+    [Tooltip("The target of the spawned enemies")]
     public Transform target = null;
 
     [Header("Spawn Position")]
@@ -71,6 +72,40 @@ public class EnemySpawner : MonoBehaviour
 
             // Spawn an enemy
             SpawnEnemy(spawnLocation);
+
+            //move to new location
+            LocationRandomizer();
+        }
+    }
+
+    /// A more just world would have me make this customizable and not hardcoded
+    /// But I'm a bit pressed for time
+    /// Maybe the opportunity will present itself as I program
+    /// <summary>
+    /// Generates random number between 0 and 3 inclusive
+    /// Teleports the object to one of four positions based on that number
+    /// </summary>
+    private void LocationRandomizer()
+    {
+        int newLocation = UnityEngine.Random.Range(0, 3);
+        switch (newLocation)
+        { //oh floof this is going to be a pita if I want to make this customizable later
+            case 0:
+                gameObject.transform.position = new Vector3(0, 15);
+                break;
+            case 1:
+                gameObject.transform.position = new Vector3(15, 0);
+                break;
+            case 2:
+                gameObject.transform.position = new Vector3(-15, 0);
+                break;
+            case 3:
+                gameObject.transform.position = new Vector3(0, -15);
+                break;
+            default:
+                Debug.LogWarning("Switch returned a value that shouldn't be possible! The position has been left unchanged and you probably need to check it out");
+                break;
+
         }
     }
 
