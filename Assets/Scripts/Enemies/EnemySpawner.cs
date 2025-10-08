@@ -87,20 +87,24 @@ public class EnemySpawner : MonoBehaviour
     /// </summary>
     private void LocationRandomizer()
     {
-        int newLocation = UnityEngine.Random.Range(0, 3);
+        int newLocation = UnityEngine.Random.Range(0, 4);
         switch (newLocation)
         { //oh floof this is going to be a pita if I want to make this customizable later
-            case 0:
+            case 0: //goes north
                 gameObject.transform.position = new Vector3(0, 15);
+                Debug.Log("Going Up!");
                 break;
-            case 1:
+            case 1: //goes west(?)
                 gameObject.transform.position = new Vector3(15, 0);
+                Debug.Log("Going Left!");
                 break;
-            case 2:
+            case 2: //goes east
                 gameObject.transform.position = new Vector3(-15, 0);
+                Debug.Log("Going Right!");
                 break;
-            case 3:
+            case 3: //goes south
                 gameObject.transform.position = new Vector3(0, -15);
+                Debug.Log("Going Down!");
                 break;
             default:
                 Debug.LogWarning("Switch returned a value that shouldn't be possible! The position has been left unchanged and you probably need to check it out");
