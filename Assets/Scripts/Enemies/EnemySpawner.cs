@@ -31,14 +31,20 @@ public class EnemySpawner : MonoBehaviour
     // The number of enemies that have been spawned
     private int currentlySpawned = 0;
 
-    [Tooltip("The time delay between spawning enemies")]
+    [Tooltip("The time delay between spawning enemies. This will be divided by the Score divided by the Difficulty variable")]
     public float spawnDelay = 2.5f;
+
+    //How quickly should spawns increase frequency?
+    [Tooltip("The denominator in the Score/Difficulty calculation. A higher value will make the game progress slower.")]
+    public float difficultyIncreaseThreshold = 500;
 
     // The most recent spawn time
     private float lastSpawnTime = Mathf.NegativeInfinity;
 
     [Tooltip("The object to make projectiles child objects of.")]
     public Transform projectileHolder = null;
+
+
 
     /// <summary>
     /// Description:
@@ -64,8 +70,27 @@ public class EnemySpawner : MonoBehaviour
     /// </summary>
     private void CheckSpawnTimer()
     {
+        ///this probably results in a gradual change over time. 
+        /// It's also linear, which is frustrating for pacing reasons. I don't have the mental willpower to crunch the 
+        /// numbers that could make this exponential, though, so it stays 
+        /// as it stands, this is fine, because I want an abrupt increase to be signaled to the player and I have no way to 
+        /// do that without breaking the game loop
+        float adjustedSpawnDelay = spawnDelay / (GameManager.score / difficultyIncreaseThreshold);
+
+        if (adjustedSpawnDelay > spawnDelay)
+        {
+            adjustedSpawnDelay = spawnDelay; //prevent potentially nasty number interactions resulting in an exorbitant wait
+            Debug.Log("Difficulty adjuster returned illegally large value. Correcting...");
+        }
+
+        if (float.IsInfinity(adjustedSpawnDelay))
+        {
+            adjustedSpawnDelay = spawnDelay; //prevents the game from softlocking immediately
+            Debug.Log("Difficulty adjuster returned invalid value, overriding to prevent softlock");
+        }
+        
         // If it is time for an enemy to be spawned
-        if (Time.timeSinceLevelLoad > lastSpawnTime + spawnDelay && (currentlySpawned < maxSpawn || spawnInfinite))
+        if (Time.timeSinceLevelLoad > lastSpawnTime + adjustedSpawnDelay && (currentlySpawned < maxSpawn || spawnInfinite))
         {
             // Determine spawn location
             Vector3 spawnLocation = GetSpawnLocation();
@@ -82,7 +107,7 @@ public class EnemySpawner : MonoBehaviour
     /// But I'm a bit pressed for time
     /// Maybe the opportunity will present itself as I program
     /// <summary>
-    /// Generates random number between 0 and 3 inclusive
+    /// Generates random number between 0 and 4
     /// Teleports the object to one of four positions based on that number
     /// </summary>
     private void LocationRandomizer()
@@ -106,7 +131,7 @@ public class EnemySpawner : MonoBehaviour
                 gameObject.transform.position = new Vector3(0, -15);
                 Debug.Log("Going Down!");
                 break;
-            default:
+            default: //floof help us if we see this
                 Debug.LogWarning("Switch returned a value that shouldn't be possible! The position has been left unchanged and you probably need to check it out");
                 break;
 

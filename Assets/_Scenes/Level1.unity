@@ -4680,20 +4680,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7125813286935845035, guid: e903e268f1c00834c8e490d6931613ec, type: 3}
       propertyPath: spawnDelay
-      value: 0.87
-      objectReference: {fileID: 0}
-    - target: {fileID: 7125813286935845035, guid: e903e268f1c00834c8e490d6931613ec, type: 3}
-      propertyPath: spawnRangeX
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 7125813286935845035, guid: e903e268f1c00834c8e490d6931613ec, type: 3}
-      propertyPath: spawnRangeY
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7125813286935845035, guid: e903e268f1c00834c8e490d6931613ec, type: 3}
-      propertyPath: projectileHolder
-      value: 
-      objectReference: {fileID: 1501675902}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5352,11 +5340,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!4 &1501675902 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7125813286935845034, guid: e903e268f1c00834c8e490d6931613ec, type: 3}
-  m_PrefabInstance: {fileID: 1364132690}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1527922570
 GameObject:
   m_ObjectHideFlags: 0
