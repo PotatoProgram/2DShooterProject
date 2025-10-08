@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,8 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class Controller : MonoBehaviour
 {
+    //frame counter initialization
+    private int globalFrameCounter = 0;
     [Header("GameObject/Component References")]
     [Tooltip("The Rigidbody2D component to use in \"Astroids Mode\".")]
     public Rigidbody2D myRigidbody = null;
@@ -16,11 +19,21 @@ public class Controller : MonoBehaviour
     [Tooltip("The speed at which the player will move.")]
     public float moveSpeed = 10.0f;
     [Tooltip("The speed at which the player rotates in asteroids movement mode")]
+    public int dashLength = 20;
+    [Tooltip("The length of the dash state")]
+    public float dashSpeed = 20;
+    [Tooltip("The speed of the dash")]
+    public float dashDelay = 30;
+    [Tooltip("How often should you be able to dash?")]
     public float rotationSpeed = 60f;
-
+    //the fact that I know that the order of "variable then tooltip" gets reversed here because unity doesn't like two 
+    // tooltip declarations right next to each other is agonizing
     [Header("Input Actions & Controls")]
     [Tooltip("The input action(s) that map to player movement")]
     public InputAction moveAction;
+    [Tooltip("The input action(s) that map to the dash ability")] //this could probably be in the moveAction variable but I 
+                                                                  //can't figure that out
+    public InputAction dashAction;
     [Tooltip("The input action(s) that map to where the controller looks")]
     public InputAction lookAction;
 
@@ -39,13 +52,18 @@ public class Controller : MonoBehaviour
     /// </summary>
     public enum MovementModes { MoveHorizontally, MoveVertically, FreeRoam, Astroids };
 
-    [Tooltip("The movmeent mode used by this controller:\n" +
+    [Tooltip("The movement mode used by this controller:\n" +
         "Move Horizontally: Player can only move left/right\n" +
         "Move Vertically: Player can only move up/down\n" +
         "FreeRoam: Player can move in any direction and can aim\n" +
         "Astroids: Player moves forward/back in the direction they are facing and rotates with horizontal input")]
     public MovementModes movementMode = MovementModes.FreeRoam;
-
+    // dash variables
+    //The time of the last dash action
+        private float lastDashTime;
+    //whether a dash has been initiated but not concluded
+    private bool dashInProgress = false;
+    //end dash variables
 
     // Whether the player can aim with the mouse or not
     private bool canAimWithMouse
@@ -79,6 +97,7 @@ public class Controller : MonoBehaviour
     void OnEnable()
     {
         moveAction.Enable();
+        dashAction.Enable();
         lookAction.Enable();
     }
 
@@ -88,6 +107,7 @@ public class Controller : MonoBehaviour
     void OnDisable()
     {
         moveAction.Disable();
+        dashAction.Disable();
         lookAction.Disable();
     }
 
@@ -105,6 +125,10 @@ public class Controller : MonoBehaviour
         {
             Debug.LogWarning("An Input Action does not have a binding set! Make sure that each Input Action has a binding set or the controller will not work!");
         }
+        if (dashAction.bindings.Count == 0)
+        {
+            Debug.LogWarning("The dash ability is not bound!");
+        }
     }
 
     /// <summary>
@@ -119,6 +143,9 @@ public class Controller : MonoBehaviour
     {
         // Collect input and move the player accordingly
         HandleInput();
+        //putting this after everything else surely won't cause issues right?
+        //anyways, increment the frame count. there's definitely a built-in function to do this but too bad
+        globalFrameCounter++;
     }
 
     /// <summary>
@@ -132,18 +159,27 @@ public class Controller : MonoBehaviour
     private void HandleInput()
     {
         // Find the position that the player should look at
-        Vector2 lookPosition = GetLookPosition();
+        UnityEngine.Vector2 lookPosition = GetLookPosition();
         // Get movement input from the inputManager
         if (moveAction.bindings.Count == 0)
         {
             Debug.LogError("The Move Input Action does not have a binding set! It must have a binding set in order for movement to happen!");
         }
-        Vector2 moveInput = moveAction.ReadValue<Vector2>();
+        UnityEngine.Vector2 moveInput = moveAction.ReadValue<UnityEngine.Vector2>();
+        float dashInput = dashAction.ReadValue<float>(); //there's no freakin way this works
+                                     // may just be the most scuffed way to do this imaginable
+        bool dashPressed = false; // it gets worse
+        if (dashInput != 0)
+        {
+            dashPressed = true;
+            dashInProgress = true;
+            lastDashTime = globalFrameCounter;
+        }
         float horizontalMovement = moveInput.x;
         float verticalMovement = moveInput.y;
-        Vector3 movementVector = new Vector3(horizontalMovement, verticalMovement, 0);
+        UnityEngine.Vector3 movementVector = new UnityEngine.Vector3(horizontalMovement, verticalMovement, 0);
         // Move the player
-        MovePlayer(movementVector);
+        MovePlayer(movementVector, dashPressed);
         LookAtPoint(lookPosition);
     }
 
@@ -156,16 +192,16 @@ public class Controller : MonoBehaviour
     /// Vector2
     /// </summary>
     /// <returns>Vector2: The position the player should look at</returns>
-    public Vector2 GetLookPosition()
+    public UnityEngine.Vector2 GetLookPosition()
     {
-        Vector2 result = transform.up;
+        UnityEngine.Vector2 result = transform.up;
         if (aimMode != AimModes.AimForwards)
         {
             if (lookAction.bindings.Count == 0)
             {
                 Debug.LogError("The Look Input Action does not have a binding set! It must have a binding set in order for the player to look around!");
             }
-            result = lookAction.ReadValue<Vector2>();
+            result = lookAction.ReadValue<UnityEngine.Vector2>();
         }
         else
         {
@@ -183,7 +219,8 @@ public class Controller : MonoBehaviour
     /// void (no return)
     /// </summary>
     /// <param name="movement">The direction to move the player</param>
-    private void MovePlayer(Vector3 movement)
+    /// <param name="dash">Whether the button to dash is currently being held</param>
+    private void MovePlayer(UnityEngine.Vector3 movement, bool dash)
     {
         // Set the player's posiiton accordingly
 
@@ -198,16 +235,16 @@ public class Controller : MonoBehaviour
             }
 
             // Move the player using physics
-            Vector2 force = transform.up * movement.y * Time.deltaTime * moveSpeed;
+            UnityEngine.Vector2 force = transform.up * movement.y * Time.deltaTime * moveSpeed;
             Debug.Log(force);
             myRigidbody.AddForce(force);
 
             // Rotate the player around the z axis
-            Vector3 newRotationEulars = transform.rotation.eulerAngles;
+            UnityEngine.Vector3 newRotationEulars = transform.rotation.eulerAngles;
             float zAxisRotation = transform.rotation.eulerAngles.z;
             float newZAxisRotation = zAxisRotation - rotationSpeed * movement.x * Time.deltaTime;
-            newRotationEulars = new Vector3(newRotationEulars.x, newRotationEulars.y, newZAxisRotation);
-            transform.rotation = Quaternion.Euler(newRotationEulars);
+            newRotationEulars = new UnityEngine.Vector3(newRotationEulars.x, newRotationEulars.y, newZAxisRotation);
+            transform.rotation = UnityEngine.Quaternion.Euler(newRotationEulars);
 
         }
         // Move according to the other settings
@@ -223,8 +260,23 @@ public class Controller : MonoBehaviour
             {
                 movement.y = 0;
             }
-            // Move the player's transform
-            transform.position = transform.position + (movement * Time.deltaTime * moveSpeed);
+            //check if we can dash or if we are already dashing. dash or don't accordingly
+            if (globalFrameCounter > lastDashTime + dashDelay && dash || dashInProgress)
+            {
+                transform.position = transform.position + (movement * Time.deltaTime * dashSpeed);
+                if (globalFrameCounter > lastDashTime + dashLength) //i realized here why the timeSinceLevelLoad 
+                                                                    // measurements aren't in frames. really wish they 
+                                                                    // were
+                {
+                    dashInProgress = false;
+                }
+                
+            }
+            else
+            {
+                // Move the player's transform
+                transform.position = transform.position + (movement * Time.deltaTime * moveSpeed);
+            }
         }
     }
 
@@ -237,12 +289,12 @@ public class Controller : MonoBehaviour
     /// void (no return)
     /// </summary>
     /// <param name="point">The screen space position to look at</param>
-    private void LookAtPoint(Vector3 point)
+    private void LookAtPoint(UnityEngine.Vector3 point)
     {
         if (Time.timeScale > 0)
         {
             // Rotate the player to look at the mouse.
-            Vector2 lookDirection = Camera.main.ScreenToWorldPoint(point) - transform.position;
+            UnityEngine.Vector2 lookDirection = Camera.main.ScreenToWorldPoint(point) - transform.position;
 
             if (canAimWithMouse)
             {
