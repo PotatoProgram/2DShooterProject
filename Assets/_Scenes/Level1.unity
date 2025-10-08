@@ -6675,7 +6675,7 @@ Transform:
   m_GameObject: {fileID: 1873398605}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.735295, y: -5.2150207, z: -0.21861438}
+  m_LocalPosition: {x: -6.25, y: -2.8749995, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7163,6 +7163,10 @@ PrefabInstance:
       propertyPath: projectileHolder
       value: 
       objectReference: {fileID: 1187418543}
+    - target: {fileID: 4572304970916643850, guid: 67a8e2a9d9197bfabb1e9d79840152c6, type: 3}
+      propertyPath: isAlwaysInvincible
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6899918855240876585, guid: 67a8e2a9d9197bfabb1e9d79840152c6, type: 3}
       propertyPath: m_Name
       value: Player
