@@ -156,8 +156,8 @@ public class EnemySpawner : MonoBehaviour
     protected virtual Vector3 GetSpawnLocation()
     {
         // Get random coordinates
-        float x = Random.Range(0 - spawnRangeX, spawnRangeX);
-        float y = Random.Range(0 - spawnRangeY, spawnRangeY);
+        float x = UnityEngine.Random.Range(0 - spawnRangeX, spawnRangeX);
+        float y = UnityEngine.Random.Range(0 - spawnRangeY, spawnRangeY);
         // Return the coordinates as a vector
         return new Vector3(transform.position.x + x, transform.position.y + y, 0);
     }
