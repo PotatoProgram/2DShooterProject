@@ -16,18 +16,16 @@ public class Controller : MonoBehaviour
     public Rigidbody2D myRigidbody = null;
 
     [Header("Movement Variables")]
+    //[Tooltip("The speed at which the player rotates in asteroids movement mode")] //might have dropped this variable at some point
     [Tooltip("The speed at which the player will move.")]
     public float moveSpeed = 10.0f;
-    [Tooltip("The speed at which the player rotates in asteroids movement mode")]
-    public int dashLength = 20;
     [Tooltip("The length of the dash state")]
-    public float dashSpeed = 20;
+    public int dashLength = 20;
     [Tooltip("The speed of the dash")]
-    public float dashDelay = 30;
+    public float dashSpeed = 20;
     [Tooltip("How often should you be able to dash?")]
+    public float dashDelay = 30;
     public float rotationSpeed = 60f;
-    //the fact that I know that the order of "variable then tooltip" gets reversed here because unity doesn't like two 
-    // tooltip declarations right next to each other is agonizing
     [Header("Input Actions & Controls")]
     [Tooltip("The input action(s) that map to player movement")]
     public InputAction moveAction;
@@ -60,9 +58,10 @@ public class Controller : MonoBehaviour
     public MovementModes movementMode = MovementModes.FreeRoam;
     // dash variables
     //The time of the last dash action
-        private float lastDashTime;
+        private int lastDashTime = 0;
+    [HideInInspector] //prevent nasties from showing up bc of forced dash state.
     //whether a dash has been initiated but not concluded
-    private bool dashInProgress = false;
+    public bool dashInProgress = false;
     //end dash variables
 
     // Whether the player can aim with the mouse or not
@@ -166,10 +165,9 @@ public class Controller : MonoBehaviour
             Debug.LogError("The Move Input Action does not have a binding set! It must have a binding set in order for movement to happen!");
         }
         UnityEngine.Vector2 moveInput = moveAction.ReadValue<UnityEngine.Vector2>();
-        float dashInput = dashAction.ReadValue<float>(); //there's no freakin way this works
-                                     // may just be the most scuffed way to do this imaginable
-        bool dashPressed = false; // it gets worse
-        if (dashInput != 0)
+        float dashInput = dashAction.ReadValue<float>(); 
+        bool dashPressed = false;
+        if (dashInput != 0 && globalFrameCounter > lastDashTime + dashDelay)
         {
             dashPressed = true;
             dashInProgress = true;
@@ -261,7 +259,7 @@ public class Controller : MonoBehaviour
                 movement.y = 0;
             }
             //check if we can dash or if we are already dashing. dash or don't accordingly
-            if (globalFrameCounter > lastDashTime + dashDelay && dash || dashInProgress)
+            if (dash || dashInProgress)
             {
                 transform.position = transform.position + (movement * Time.deltaTime * dashSpeed);
                 if (globalFrameCounter > lastDashTime + dashLength) //i realized here why the timeSinceLevelLoad 
