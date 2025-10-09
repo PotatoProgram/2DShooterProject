@@ -81,7 +81,6 @@ public class Health : MonoBehaviour
             isInvincableFromDamage = false;
         }
     }
-
     // The position that the health's gameobject will respawn at if lives are being used
     private Vector3 respawnPosition;
     /// <summary>
@@ -123,20 +122,42 @@ public class Health : MonoBehaviour
     /// <param name="damageAmount">The amount of damage to take</param>
     public void TakeDamage(int damageAmount)
     {
-        if (isInvincableFromDamage || isAlwaysInvincible)
+        if (gameObject.GetComponent<Controller>() != null)
         {
-            return;
+            Controller controller = GetComponent<Controller>(); //grab controller script and prepare to use it
+            if (isInvincableFromDamage || isAlwaysInvincible || controller.dashInProgress)
+            {
+                return;
+            }
+            else
+            {
+                if (hitEffect != null)
+                {
+                    Instantiate(hitEffect, transform.position, transform.rotation, null);
+                }
+                timeToBecomeDamagableAgain = Time.time + invincibilityTime;
+                isInvincableFromDamage = true;
+                currentHealth -= damageAmount;
+                CheckDeath();
+            }
         }
         else
         {
-            if (hitEffect != null)
+            if (isInvincableFromDamage || isAlwaysInvincible)
             {
-                Instantiate(hitEffect, transform.position, transform.rotation, null);
+                return;
             }
-            timeToBecomeDamagableAgain = Time.time + invincibilityTime;
-            isInvincableFromDamage = true;
-            currentHealth -= damageAmount;
-            CheckDeath();
+            else
+            {
+                if (hitEffect != null)
+                {
+                    Instantiate(hitEffect, transform.position, transform.rotation, null);
+                }
+                timeToBecomeDamagableAgain = Time.time + invincibilityTime;
+                isInvincableFromDamage = true;
+                currentHealth -= damageAmount;
+                CheckDeath();
+            }
         }
     }
 
