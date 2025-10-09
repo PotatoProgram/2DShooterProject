@@ -4638,6 +4638,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySpawnerChaser
       objectReference: {fileID: 0}
+    - target: {fileID: 7125813286935845032, guid: e903e268f1c00834c8e490d6931613ec, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7125813286935845034, guid: e903e268f1c00834c8e490d6931613ec, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -7142,10 +7146,70 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 878345993652240098, guid: 67a8e2a9d9197bfabb1e9d79840152c6, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1608653860432558154, guid: 67a8e2a9d9197bfabb1e9d79840152c6, type: 3}
       propertyPath: projectileHolder
       value: 
       objectReference: {fileID: 1187418543}
+    - target: {fileID: 1711093943136492187, guid: 67a8e2a9d9197bfabb1e9d79840152c6, type: 3}
+      propertyPath: dashDelay
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1711093943136492187, guid: 67a8e2a9d9197bfabb1e9d79840152c6, type: 3}
+      propertyPath: dashSpeed
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1711093943136492187, guid: 67a8e2a9d9197bfabb1e9d79840152c6, type: 3}
+      propertyPath: dashLength
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1711093943136492187, guid: 67a8e2a9d9197bfabb1e9d79840152c6, type: 3}
+      propertyPath: dashAction.m_Name
+      value: Dash
+      objectReference: {fileID: 0}
+    - target: {fileID: 1711093943136492187, guid: 67a8e2a9d9197bfabb1e9d79840152c6, type: 3}
+      propertyPath: dashAction.m_SingletonActionBindings.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1711093943136492187, guid: 67a8e2a9d9197bfabb1e9d79840152c6, type: 3}
+      propertyPath: moveAction.m_SingletonActionBindings.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1711093943136492187, guid: 67a8e2a9d9197bfabb1e9d79840152c6, type: 3}
+      propertyPath: dashAction.m_SingletonActionBindings.Array.data[0].m_Id
+      value: d7849b5e-7441-4af3-847d-88835208098e
+      objectReference: {fileID: 0}
+    - target: {fileID: 1711093943136492187, guid: 67a8e2a9d9197bfabb1e9d79840152c6, type: 3}
+      propertyPath: moveAction.m_SingletonActionBindings.Array.data[5].m_Id
+      value: 8c8b1e10-493e-4ba2-9f71-d9725bcaa39b
+      objectReference: {fileID: 0}
+    - target: {fileID: 1711093943136492187, guid: 67a8e2a9d9197bfabb1e9d79840152c6, type: 3}
+      propertyPath: dashAction.m_SingletonActionBindings.Array.data[0].m_Path
+      value: <Keyboard>/space
+      objectReference: {fileID: 0}
+    - target: {fileID: 1711093943136492187, guid: 67a8e2a9d9197bfabb1e9d79840152c6, type: 3}
+      propertyPath: moveAction.m_SingletonActionBindings.Array.data[5].m_Path
+      value: <Keyboard>/space
+      objectReference: {fileID: 0}
+    - target: {fileID: 1711093943136492187, guid: 67a8e2a9d9197bfabb1e9d79840152c6, type: 3}
+      propertyPath: dashAction.m_SingletonActionBindings.Array.data[0].m_Action
+      value: Dash
+      objectReference: {fileID: 0}
+    - target: {fileID: 1711093943136492187, guid: 67a8e2a9d9197bfabb1e9d79840152c6, type: 3}
+      propertyPath: moveAction.m_SingletonActionBindings.Array.data[5].m_Action
+      value: Move
+      objectReference: {fileID: 0}
+    - target: {fileID: 4572304970916643850, guid: 67a8e2a9d9197bfabb1e9d79840152c6, type: 3}
+      propertyPath: currentLives
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4572304970916643850, guid: 67a8e2a9d9197bfabb1e9d79840152c6, type: 3}
+      propertyPath: maximumLives
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 4572304970916643850, guid: 67a8e2a9d9197bfabb1e9d79840152c6, type: 3}
       propertyPath: isAlwaysInvincible
       value: 0
