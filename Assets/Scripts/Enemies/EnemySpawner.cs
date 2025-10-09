@@ -80,7 +80,7 @@ public class EnemySpawner : MonoBehaviour
         if (adjustedSpawnDelay > spawnDelay)
         {
             adjustedSpawnDelay = spawnDelay; //prevent potentially nasty number interactions resulting in an exorbitant wait
-            Debug.Log("Difficulty adjuster returned illegally large value. Correcting..."); // this spams the console every frame. My current understanding of C# won't let me fix this
+            // Debug.Log("Difficulty adjuster returned illegally large value. Correcting..."); // this spams the console every frame. My current understanding of C# won't let me fix this
         }
 
         if (float.IsInfinity(adjustedSpawnDelay))
