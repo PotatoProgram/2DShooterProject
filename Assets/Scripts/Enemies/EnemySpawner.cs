@@ -117,19 +117,19 @@ public class EnemySpawner : MonoBehaviour
         { //oh floof this is going to be a pita if I want to make this customizable later
             case 0: //goes north
                 gameObject.transform.position = new Vector3(0, 15);
-                Debug.Log("Going Up!");
+                //Debug.Log("Going Up!");
                 break;
             case 1: //goes west(?)
                 gameObject.transform.position = new Vector3(15, 0);
-                Debug.Log("Going Left!");
+                //Debug.Log("Going Left!");
                 break;
             case 2: //goes east
                 gameObject.transform.position = new Vector3(-15, 0);
-                Debug.Log("Going Right!");
+                //Debug.Log("Going Right!");
                 break;
             case 3: //goes south
                 gameObject.transform.position = new Vector3(0, -15);
-                Debug.Log("Going Down!");
+                //Debug.Log("Going Down!");
                 break;
             default: //floof help us if we see this
                 Debug.LogWarning("Switch returned a value that shouldn't be possible! The position has been left unchanged and you probably need to check it out");
