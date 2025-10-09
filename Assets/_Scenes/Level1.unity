@@ -7271,6 +7271,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 630333213847050485, guid: 3ea512b153afb150a9e5d237e2e5d8c1, type: 3}
+      propertyPath: m_fontSize
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 630333213847050485, guid: 3ea512b153afb150a9e5d237e2e5d8c1, type: 3}
+      propertyPath: m_fontSizeMax
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 630333213847050485, guid: 3ea512b153afb150a9e5d237e2e5d8c1, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339431972099558481, guid: 3ea512b153afb150a9e5d237e2e5d8c1, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339431972099558481, guid: 3ea512b153afb150a9e5d237e2e5d8c1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -40
+      objectReference: {fileID: 0}
     - target: {fileID: 2979395337347800797, guid: 3ea512b153afb150a9e5d237e2e5d8c1, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -7362,6 +7382,30 @@ PrefabInstance:
     - target: {fileID: 5710748474178543341, guid: 3ea512b153afb150a9e5d237e2e5d8c1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
       value: Level2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385864976279507426, guid: 3ea512b153afb150a9e5d237e2e5d8c1, type: 3}
+      propertyPath: m_text
+      value: 'Score: 0'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385864976279507426, guid: 3ea512b153afb150a9e5d237e2e5d8c1, type: 3}
+      propertyPath: m_fontSize
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385864976279507426, guid: 3ea512b153afb150a9e5d237e2e5d8c1, type: 3}
+      propertyPath: m_margin.w
+      value: 10.518654
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385864976279507426, guid: 3ea512b153afb150a9e5d237e2e5d8c1, type: 3}
+      propertyPath: m_margin.z
+      value: -162.86757
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385864976279507426, guid: 3ea512b153afb150a9e5d237e2e5d8c1, type: 3}
+      propertyPath: m_fontSizeMax
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385864976279507426, guid: 3ea512b153afb150a9e5d237e2e5d8c1, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
